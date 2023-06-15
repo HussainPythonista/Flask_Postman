@@ -15,13 +15,6 @@ db = CRUD()
 
 
 
-
-# @app.route("/")
-# def home():
-#     datas = db.get_all_data()
-#     return render_template("home.html")
-
-
 @app.route("/")
 def stu_info():
 
