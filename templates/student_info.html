@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Student Information</h1>
+    <h4>
+        {% with messages=get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {%endwith%}
+
+    </h4>
+    <p><a href="{{url_for('addStudents')}}">Add User</a></p>
+    <table>
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Class</th>
+            <th>Section</th>
+        </tr>
+        {% for data in datas %}
+        <tr>
+            <td>{{ data.roll_no }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.age }}</td>
+            <td>{{ data.class }}</td>
+            <td>{{ data.sec }}</td>
+            <td><a href="{{url_for('edit_info',roll_no=data.roll_no)}}">Edit</a></td>
+            <td><a onclick="return confirm('Are you sure?')" href="{{url_for('delete_stu',roll_no=data.roll_no)}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

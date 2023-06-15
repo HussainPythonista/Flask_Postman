@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student Information</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Edit Student Information</h1>
+    
+    <h4>
+        {% with messages=get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {%endwith%}
+    </h4>
+    <form method="POST">
+        <label>Roll No:</label>
+        <input type="text" name="roll No" value="{{info.roll_no}}">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ info.name }}"><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" value="{{ info.age }}"><br>
+
+        <label for="class">Class:</label>
+        <input type="text" id="class" name="class" value="{{ info.class }}"><br>
+
+        <label for="section">Section:</label>
+        <input type="text" id="section" name="section" value="{{ info.sec }}"><br>
+
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>

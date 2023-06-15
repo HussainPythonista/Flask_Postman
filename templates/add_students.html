@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Addition</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+</head>
+<body>
+    <h1>Adding the Student Information</h1>
+    <h4>
+        {% with messages=get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        {%endwith%}
+    </h4>
+    <form action="" method="post">
+        <label>Roll No:</label>
+        <input type="text" name="roll No" required >
+        <label>Name:</label>
+        <input type="text" name="name" required>
+        <label>Age:</label>
+        <input type="number" name="age" required>
+        <label>Class:</label>
+        <input type="text" name="class" required>
+        <label>Section:</label>
+        <input type="text" name="section" required>
+
+        <input type="submit" value="Insert Student">
+    </form>
+</body>
+</html>
