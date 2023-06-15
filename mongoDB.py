@@ -46,10 +46,10 @@ collection=db["Student_Details"]
 
 # Retrieve all documents
 
-collection.insert_one({"name": "Mohamed", "age": 23, "class": 12, "sec": "A", "roll_no": "10011"})
-print("Insert success")
-filter_ = {"roll_no": 10002}  # Fix the variable name to filter_
+# collection.insert_one({"name": "Mohamed", "age": 23, "class": 12, "sec": "A", "roll_no": "10011"})
+# print("Insert success")
+# filter_ = {"roll_no": 10002}  # Fix the variable name to filter_
 
-new_values = {"name": "KUPPU", "age": "age", "class": "class_", "sec": "section"}
+# new_values = {"name": "KUPPU", "age": "age", "class": "class_", "sec": "section"}
 
-result = collection.update_one(filter_, {"$set": new_values})
+# result = collection.update_one(filter_, {"$set": new_values})

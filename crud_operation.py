@@ -55,11 +55,13 @@ class CRUD:
         '''
 
         #Get one data for using build_in find_one method in pymongo
-        data=self.collection.find_one({"roll_no":roll_no})
+        data=self.collection.find_one({"roll_no":roll_no},{"_id":0})
         if data!=None:
             return data
         else:
-            return "Not Present"
+            return None
+        
+        
     def insert_details(self,roll_no,name,age,class_,section):
 
         '''
