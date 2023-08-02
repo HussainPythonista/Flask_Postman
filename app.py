@@ -52,6 +52,64 @@ def delete_stu(roll_no):
     else:
         return jsonify({"Message":"Student information Not Present"})
     
+@app.route("/add", methods=["POST","PUT"])
+def add_edit_students():
+    '''
+    Combined function for adding and editing student information in the database.
+    If the roll number already exists, it updates the information. If the roll number does not exist,
+    it adds the data to the MongoDB.
+
+    The request data should be sent in JSON format with the following structure:
+    {
+        "roll_no": "<roll_no>",
+        "name": "<name>",
+        "age": "<age>",
+        "class": "<class>",
+        "section": "<section>"
+    }
+
+    If the roll number already exists, it updates the information in the database.
+    If the roll number is not present, it inserts the data into the database.
+
+    Returns a JSON response with the appropriate message.
+    '''
+
+    data = request.get_json()
+    roll_no = data["roll_no"]
+
+    # Checking for existence
+    checking = db.get_one_data(roll_no)
+    if checking is None:
+        name = data.get("name")
+        class_ = data.get("class")
+        section = data.get("section")
+        age = data.get("age")
+        class_teacher = data.get("class_teacher")
+        
+        db.insert_details(roll_no=roll_no, name=name, age=age, class_=class_, section=section, class_teacher=class_teacher)
+        return jsonify("Yah!!! Student information created")
+    else:
+        existing_data = db.get_one_data(roll_no)
+
+        name = data.get("name", existing_data["name"])
+        class_ = data.get("class", existing_data["class"])
+        section = data.get("sec", existing_data["sec"])
+        age = data.get("age", existing_data["age"])
+        class_teacher = data.get("class_teacher", existing_data["class_teacher"])
+
+        db.update_info(roll_no=roll_no, name=name, age=age, class_=class_, section=section, class_teacher=class_teacher)
+        return jsonify("The Data already exists!!! So I updated the Student information")
+    
+@app.route("/add_many",methods=["POST"])
+def add_many():
+    # Process the data, such as inserting into a database or performing any other desired operations
+    data = request.get_json()
+    db.collection.insert_many(data)
+
+    return {"MESSAGE":"Data Inserted"}
+
+if __name__ == "__main__":
+    app.run()
 
 #Run the flask application in 5500 port
 if __name__ == "__main__":

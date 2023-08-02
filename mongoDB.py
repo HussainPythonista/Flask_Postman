@@ -53,3 +53,4 @@ collection=db["Student_Details"]
 # new_values = {"name": "KUPPU", "age": "age", "class": "class_", "sec": "section"}
 
 # result = collection.update_one(filter_, {"$set": new_values})
+# print(list(collection.find()))

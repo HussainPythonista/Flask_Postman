@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from flask import jsonify
+
 '''
 Database connectivity using pymongo
 
@@ -62,20 +62,20 @@ class CRUD:
             return None
         
         
-    def insert_details(self,roll_no,name,age,class_,section):
+    def insert_details(self,roll_no,name=None,age=None,class_=None,section=None,class_teacher=None):
 
         '''
         Getting the parameters like Roll No,Name,Age,Class,Section, and create it into the dictionry boject to store in mongo DB,
         using build_in keyword in pymongo insert_one()
         '''
         data_to_insert={
-            "name":name,"age":age,"class":class_,"sec":section,"roll_no":roll_no
+            "name":name,"age":age,"class":class_,"sec":section,"roll_no":roll_no,"class_teacher":class_teacher
         }
         #Inserting data using inset_one method in mongoDB
         self.collection.insert_one(data_to_insert)
         return self.collection
         
-    def update_info(self, roll_no, name, age, class_, section):
+    def update_info(self, roll_no, name, age, class_, section,class_teacher):
         '''
         Getting the parameters like Roll No,Name,Age,Class,Section, and create it into the dictionry boject to store in mongo DB,
         using build_in keyword in pymongo 
@@ -88,7 +88,8 @@ class CRUD:
             "name": name,
             "age": age,
             "class": class_,
-            "sec": section
+            "sec": section,
+            "class_teacher":class_teacher
         }}
         self.collection.update_one(filter_, new_values)
 
