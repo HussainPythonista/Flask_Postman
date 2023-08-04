@@ -4,6 +4,11 @@ from flask import Flask, render_template, url_for, request, redirect, flash,json
 #Getting CRUD class which create stored in another file 
 from crud_operation import CRUD
 
+from flask_cors import CORS
+
+app = Flask(__name__)
+#CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}) # Enable CORS for all origins
+CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 #Creating flask object from FLask Class
 app = Flask(__name__)
 
@@ -13,6 +18,19 @@ app.secret_key = "abc123"
 #Creating database mongo object CRUD class
 db = CRUD()
 
+
+from flask import Flask, jsonify
+from crud_operation import CRUD
+from flask_cors import CORS
+
+
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:4200'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'
+    return response
 
 
 @app.route("/")
@@ -30,12 +48,13 @@ def stu_info():
 
 @app.route("/get_one/<roll_no>",methods=["GET"])
 def get_one_student_info(roll_no):
-    data=db.get_one_data(roll_no)
+    data=db.get_one_data(roll_no=roll_no)
     if data == None:
-        return jsonify({"message": "Data not found"})
-
+        
+        return jsonify({"message": "Data Not Present"})
+    else:
     #data['_id'] = str(data['_id'])
-    return jsonify(data)
+        return jsonify(data)
 
 #Deleting the existing record
 @app.route("/delete/<roll_no>",methods=['DELETE'])
@@ -43,11 +62,12 @@ def delete_stu(roll_no):
     '''
     Getting roll_no from htmlpage and push it to the CRUD class to delete the record from mongodb
     '''
+
     #filter_data={"roll_no":roll_no}
     deleted_person=db.get_one_data(roll_no)
     if deleted_person!=None:
-        db.delete_info(roll_no)
-        return jsonify({"Message":"Student Name : "+ deleted_person["name"]+" get deleted"})
+        db.delete_info(str(roll_no))
+        return jsonify({"Message":"Deleted"})#"Student Name : "+ deleted_person["name"]+" get deleted"})
     
     else:
         return jsonify({"Message":"Student information Not Present"})
@@ -79,6 +99,7 @@ def add_edit_students():
 
     # Checking for existence
     checking = db.get_one_data(roll_no)
+    
     if checking is None:
         name = data.get("name")
         class_ = data.get("class")
@@ -100,6 +121,7 @@ def add_edit_students():
         db.update_info(roll_no=roll_no, name=name, age=age, class_=class_, section=section, class_teacher=class_teacher)
         return jsonify("The Data already exists!!! So I updated the Student information")
     
+    
 @app.route("/add_many",methods=["POST"])
 def add_many():
     # Process the data, such as inserting into a database or performing any other desired operations
@@ -110,7 +132,10 @@ def add_many():
 
 if __name__ == "__main__":
     app.run()
-
+    
+@app.route("/test")
+def test_route():
+    return "This is a test shit"
 #Run the flask application in 5500 port
 if __name__ == "__main__":
     app.run(port=5500)

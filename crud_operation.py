@@ -55,7 +55,7 @@ class CRUD:
         '''
 
         #Get one data for using build_in find_one method in pymongo
-        data=self.collection.find_one({"roll_no":roll_no},{"_id":0})
+        data=self.collection.find_one({"roll_no":int(roll_no)},{"_id":0})
         if data!=None:
             return data
         else:
@@ -83,7 +83,7 @@ class CRUD:
 
         $set keyword which is useful for updating information 
         '''
-        filter_ = {"roll_no": roll_no}
+        filter_ = {"roll_no": int(roll_no)}
         new_values = {"$set": {
             "name": name,
             "age": age,
@@ -95,6 +95,10 @@ class CRUD:
 
     def delete_info(self,roll_no):
         '''Method which helps to delete single data from the database'''
-        filter={"roll_no":roll_no}
+        filter={"roll_no":int(roll_no)}
         self.collection.delete_one(filter)
         return self.collection
+    
+
+cr_test=CRUD()
+print(cr_test.get_one_data(175))
