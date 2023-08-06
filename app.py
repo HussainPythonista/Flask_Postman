@@ -46,6 +46,17 @@ def stu_info():
     return jsonify(datas)
 
 
+@app.route("/check_present/<roll_no>",methods=["GET"])
+def check_present(roll_no):
+    data=db.get_one_data(roll_no=roll_no)
+    if data == None:
+        
+        return jsonify(False)  
+    else:
+    #data['_id'] = str(data['_id'])
+        return jsonify(True)
+    
+
 @app.route("/get_one/<roll_no>",methods=["GET"])
 def get_one_student_info(roll_no):
     data=db.get_one_data(roll_no=roll_no)
@@ -114,7 +125,7 @@ def add_edit_students():
 
         name = data.get("name", existing_data["name"])
         class_ = data.get("class", existing_data["class"])
-        section = data.get("sec", existing_data["sec"])
+        section = data.get("section", existing_data["section"])
         age = data.get("age", existing_data["age"])
         class_teacher = data.get("class_teacher", existing_data["class_teacher"])
 
@@ -135,7 +146,7 @@ if __name__ == "__main__":
     
 @app.route("/test")
 def test_route():
-    return "This is a test shit"
+    return "This is a test "
 #Run the flask application in 5500 port
 if __name__ == "__main__":
     app.run(port=5500)
