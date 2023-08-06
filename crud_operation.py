@@ -69,7 +69,7 @@ class CRUD:
         using build_in keyword in pymongo insert_one()
         '''
         data_to_insert={
-            "name":name,"age":age,"class":class_,"sec":section,"roll_no":roll_no,"class_teacher":class_teacher
+            "name":name,"age":age,"class":class_,"section":section,"roll_no":roll_no,"class_teacher":class_teacher
         }
         #Inserting data using inset_one method in mongoDB
         self.collection.insert_one(data_to_insert)
@@ -99,6 +99,9 @@ class CRUD:
         self.collection.delete_one(filter)
         return self.collection
     
+    def delete_all(self):
+       return self.collection.delete_many({})
 
+    
 cr_test=CRUD()
 print(cr_test.get_one_data(175))

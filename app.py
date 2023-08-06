@@ -46,16 +46,7 @@ def stu_info():
     return jsonify(datas)
 
 
-@app.route("/check_present/<roll_no>",methods=["GET"])
-def check_present(roll_no):
-    data=db.get_one_data(roll_no=roll_no)
-    if data == None:
-        
-        return jsonify(False)  
-    else:
-    #data['_id'] = str(data['_id'])
-        return jsonify(True)
-    
+
 
 @app.route("/get_one/<roll_no>",methods=["GET"])
 def get_one_student_info(roll_no):
@@ -82,6 +73,18 @@ def delete_stu(roll_no):
     
     else:
         return jsonify({"Message":"Student information Not Present"})
+    
+
+
+@app.route("/check_present/<roll_no>",methods=["GET"])
+def check_present(roll_no):
+    data=db.get_one_data(roll_no=roll_no)
+    if data == None:
+        
+        return jsonify(False)  
+    else:
+    #data['_id'] = str(data['_id'])
+        return jsonify(True)
     
 @app.route("/add", methods=["POST","PUT"])
 def add_edit_students():
@@ -110,7 +113,7 @@ def add_edit_students():
 
     # Checking for existence
     checking = db.get_one_data(roll_no)
-    
+    #print(check_present(roll_no))
     if checking is None:
         if len(str(roll_no))==4:
             name = data.get("name")
@@ -133,7 +136,7 @@ def add_edit_students():
         class_teacher = data.get("class_teacher", existing_data["class_teacher"])
 
         db.update_info(roll_no=roll_no, name=name, age=age, class_=class_, section=section, class_teacher=class_teacher)
-        return jsonify("The Data already exists!!! So I updated the Student information")
+        return jsonify(" I updated the Student information")
     
     
 @app.route("/add_many",methods=["POST"])
@@ -143,6 +146,16 @@ def add_many():
     db.collection.insert_many(data)
 
     return {"MESSAGE":"Data Inserted"}
+
+
+
+@app.route("/delete_all",methods=["DELETE"])
+def delete_all():
+    db.delete_all()
+    return jsonify("Everthing get deleted")
+
+
+
 
 if __name__ == "__main__":
     app.run()

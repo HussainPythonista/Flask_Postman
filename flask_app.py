@@ -123,6 +123,7 @@ def delete_stu(roll_no):
     #return redirect(url_for("stu_info"))
     return response
 
+
 #Run the flask application in 5500 port
 if __name__ == "__main__":
     app.run(port=5500)
