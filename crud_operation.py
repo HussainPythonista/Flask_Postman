@@ -88,7 +88,7 @@ class CRUD:
             "name": name,
             "age": age,
             "class": class_,
-            "sec": section,
+            "section": section,
             "class_teacher":class_teacher
         }}
         self.collection.update_one(filter_, new_values)

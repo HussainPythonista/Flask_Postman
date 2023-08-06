@@ -112,14 +112,17 @@ def add_edit_students():
     checking = db.get_one_data(roll_no)
     
     if checking is None:
-        name = data.get("name")
-        class_ = data.get("class")
-        section = data.get("section")
-        age = data.get("age")
-        class_teacher = data.get("class_teacher")
-        
-        db.insert_details(roll_no=roll_no, name=name, age=age, class_=class_, section=section, class_teacher=class_teacher)
-        return jsonify("Yah!!! Student information created")
+        if len(str(roll_no))==4:
+            name = data.get("name")
+            class_ = data.get("class")
+            section = data.get("section")
+            age = data.get("age")
+            class_teacher = data.get("class_teacher")
+            
+            db.insert_details(roll_no=roll_no, name=name, age=age, class_=class_, section=section, class_teacher=class_teacher)
+            return jsonify("Yah!!! Student information created")
+        else:
+            return jsonify("Roll should be 4 digit long")
     else:
         existing_data = db.get_one_data(roll_no)
 
