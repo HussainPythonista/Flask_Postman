@@ -99,9 +99,8 @@ class CRUD:
         self.collection.delete_one(filter)
         return self.collection
     
-    def delete_all(self):
-       return self.collection.delete_many({})
-
+    def delete_list_info(self,list_):
+        return self.collection.delete_many({"roll_no":{"$in":list_}})
     
 cr_test=CRUD()
 print(cr_test.get_one_data(175))

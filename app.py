@@ -149,12 +149,13 @@ def add_many():
 
 
 
-@app.route("/delete_all",methods=["DELETE"])
-def delete_all():
-    db.delete_all()
-    return jsonify("Everthing get deleted")
-
-
+@app.route("/delete_select/<list_val>",methods=["DELETE"])
+def delete_all(list_val):
+    print(type(list_val),list_val)
+    number_delete=[int(roll_no) for roll_no in list_val.split(",")]
+    print(number_delete,type(number_delete))
+    db.delete_list_info(number_delete)
+    return jsonify("Selected Students deleted successfully")
 
 
 if __name__ == "__main__":
